@@ -1,0 +1,131 @@
+<template>
+  <div id="app">
+    <el-container>
+      <el-aside :width="aside">
+        <div>
+          <el-row>
+            <el-col :span="24"><div class="grid-content bg-purple-dark"></div></el-col>
+            <!--使用组件-->
+            <elnav v-on:collapseListener="collapseListener"></elnav>
+          </el-row>
+        </div>
+      </el-aside>
+      <el-container>
+        <el-header height="50px">
+          <el-dropdown>
+                    <span class="el-dropdown-link">
+                       zzitbar<i class="el-icon-arrow-down el-icon--right"></i>
+                    </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item>查看</el-dropdown-item>
+              <el-dropdown-item>新增</el-dropdown-item>
+              <el-dropdown-item>删除</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </el-header>
+        <el-main>
+          <div>
+            <!--嵌套路由-->
+            <router-view></router-view>
+          </div>
+        </el-main>
+        <el-footer height="50px">Footer</el-footer>
+      </el-container>
+    </el-container>
+  </div>
+</template>
+
+<script>
+    // 引入elmenetui的导航组件
+    import elnav from "./components/el-nav.vue";
+    export default {
+        //加载组件
+        components:{elnav},
+        data () {
+            return {
+                msg: 'Use Element-Start Now!',
+                isCollapse: false
+            }
+        },
+        computed: {
+            aside: function () {
+                return this.isCollapse?"":"200px"
+            }
+        },
+        methods: {
+            startHacking() {
+                console.log(this)
+                this.$notify({
+                    title: 'It works!',
+                    type: 'success',
+                    message: 'We\'ve laid the ground work for you. It\'s time for you to build something epic!',
+                    duration: 5000
+                })
+            },
+            collapseListener:function (data) {
+                console.log("collapseListener", data);
+                this.isCollapse=data
+            }
+        }
+    }
+</script>
+
+<style>
+  body {
+    margin: 0;
+  }
+  p {
+    margin: 0;
+  }
+  #app {
+    font-family: Helvetica, sans-serif;
+  }
+  .el-menu-vertical-demo:not(.el-menu--collapse) {
+    width: 200px;
+    min-height: 400px;
+  }
+  .el-header {
+    text-align: right; font-size: 12px; height: 50px!important; line-height: 50px; background: #3c8dbc;
+    color: #FFF;
+  }
+  .el-dropdown {
+    color: #FFF;
+  }
+
+  .el-aside {
+    background-color: #222d32;
+    color: #333;
+    /*text-align: center;*/
+    line-height: 200px;
+
+  }
+
+  .el-main {
+    background-color: #E9EEF3;
+    color: #333;
+    /*text-align: center;*/
+    line-height: 160px;
+  }
+
+  body > .el-container {
+    margin-bottom: 40px;
+  }
+
+  .el-container:nth-child(5) .el-aside,
+  .el-container:nth-child(6) .el-aside {
+    line-height: 260px;
+  }
+
+  .el-container:nth-child(7) .el-aside {
+    line-height: 320px;
+  }
+  .el-menu {
+    border-right: none;
+  }
+  .aside-header{
+    line-height: 50px; height: 50px; background: #3c8dbc;
+    color: #FFF;
+  }
+</style>
+
+
