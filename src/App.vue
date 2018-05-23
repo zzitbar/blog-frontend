@@ -43,7 +43,6 @@
         components:{elnav},
         data () {
             return {
-                msg: 'Use Element-Start Now!',
                 isCollapse: false
             }
         },
@@ -53,32 +52,32 @@
             }
         },
         methods: {
-            startHacking() {
-                console.log(this)
-                this.$notify({
-                    title: 'It works!',
-                    type: 'success',
-                    message: 'We\'ve laid the ground work for you. It\'s time for you to build something epic!',
-                    duration: 5000
-                })
-            },
             collapseListener:function (data) {
                 console.log("collapseListener", data);
                 this.isCollapse=data
             }
+        },
+        created: function () {
+            console.log(this)
+
         }
     }
 </script>
 
 <style>
-  body {
+  html, body {
     margin: 0;
+    height: 100%;
   }
   p {
     margin: 0;
   }
   #app {
     font-family: Helvetica, sans-serif;
+    height: 100%;
+  }
+  .el-container{
+    height: 100%;
   }
   .el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 200px;
@@ -96,15 +95,14 @@
     background-color: #222d32;
     color: #333;
     /*text-align: center;*/
-    line-height: 200px;
-
+    /*line-height: 200px;*/
   }
 
   .el-main {
     background-color: #E9EEF3;
     color: #333;
     /*text-align: center;*/
-    line-height: 160px;
+    /*line-height: 160px;*/
   }
 
   body > .el-container {
@@ -125,6 +123,19 @@
   .aside-header{
     line-height: 50px; height: 50px; background: #3c8dbc;
     color: #FFF;
+  }
+  a.link-plain{
+    color: #3f58ff;
+    text-decoration: none;
+  }
+  a.link-sm{
+    font-size: 12px;
+  }
+  a.link-plain:hover{
+    color: #909eff;
+  }
+  .text-nowrap {
+      white-space: nowrap;
   }
 </style>
 
