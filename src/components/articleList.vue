@@ -1,0 +1,121 @@
+<template>
+    <el-card>
+        <el-table
+                :data="tableData"
+                border
+                style="width: 100%">
+            <el-table-column
+                    type="index"
+                    width="50">
+            </el-table-column>
+            <el-table-column
+                    width="60"
+                    prop="id"
+                    label="ID">
+            </el-table-column>
+            <el-table-column
+                    label="标题">
+                <template slot-scope="scope">
+                    <a href="#" class="link-plain">{{ scope.row.articleTitle }}</a>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    prop="articleCategoryName"
+                    label="分类">
+            </el-table-column>
+            <el-table-column
+                    prop="articleTags"
+                    label="标签">
+            </el-table-column>
+            <el-table-column
+                    width="60"
+                    prop="articleCommentCount"
+                    label="回复数">
+            </el-table-column>
+            <el-table-column
+                    width="60"
+                    prop="articleViewCount"
+                    label="阅读数">
+            </el-table-column>
+            <el-table-column
+                    prop="articleCreateDate"
+                    label="创建时间">
+            </el-table-column>
+            <el-table-column label="操作" class-name="text-nowrap">
+                <template slot-scope="scope">
+                    <el-button
+                            size="mini"
+                            @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                    <el-button
+                            size="mini"
+                            type="danger"
+                            @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <div class="block">
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                    :page-sizes="[10, 20, 30, 40]"
+                    :page-size="pageSize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total">
+            </el-pagination>
+        </div>
+    </el-card>
+</template>
+<script>
+    // import axios from 'axios'
+    import {aiticleList, stringify} from '../api/api';
+    export default {
+        name: "article-list",
+        data() {
+            return {
+                currentPage: 1,
+                getTopicListUrl: 'http://localhost:8081/admin/article/page',
+                tableData: [],
+                total:0,
+                pageSize:10
+            }
+        },
+        methods: {
+            handleSizeChange(val) {
+                console.log(`每页 ${val} 条`);
+                this.pageSize = val;
+                this.getTopic();
+            },
+            handleCurrentChange(val) {
+                console.log(`当前页: ${val}`);
+                this.currentPage = val;
+                this.getTopic();
+            },
+            getTopic: function () {
+                var that = this;
+                var params = { rows: this.pageSize, page: this.currentPage };
+                aiticleList(params).then(res =>{
+                    console.log(res);
+                    that.tableData = res.data.rows;
+                    that.total = res.data.total;
+                    that.currentPage = res.data.currentPage;
+                    that.pageSize = res.data.pageSize;
+                });
+                // axios.post(that.getTopicListUrl + "?accesstoken=33771e44-2688-4e8c-b5a1-822026574be5").then(res => {
+                //     console.log(res);
+                //     that.tableData = res.data.rows;
+                //     that.total = res.data.total;
+                //     that.currentPage = res.data.currentPage;
+                //     that.pageSize = res.data.pageSize;
+                // })
+            }
+        },
+        created: function () {
+            this.getTopic();
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>
