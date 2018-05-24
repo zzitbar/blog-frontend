@@ -24,7 +24,7 @@
           </el-dropdown>
         </el-header>
         <el-main>
-          <div>
+          <div style="margin-bottom: 20px;">
             <!--嵌套路由-->
             <router-view></router-view>
           </div>

@@ -17,8 +17,10 @@
                 <template slot="title"><i class="el-icon-message"></i> <span v-if="!childCollapse">文章管理</span></template>
                 <el-menu-item index="/form">表单</el-menu-item>
                 <el-menu-item index="/aitlcle">文章列表</el-menu-item>
+                <el-menu-item index="/aitlcleEdit">文章编辑</el-menu-item>
                 <el-menu-item index="/user/password">分类管理</el-menu-item>
                 <el-menu-item index="/user/password">标签管理</el-menu-item>
+                <el-menu-item index="/testjs">测试第三方js引入</el-menu-item>
             </el-submenu>
             <el-submenu index="2">
                 <template slot="title"><i class="el-icon-menu"></i><span v-if="!childCollapse">用户管理</span></template>

@@ -1,6 +1,7 @@
 <template>
     <el-card>
         <el-table
+                v-loading="loading"
                 :data="tableData"
                 border
                 style="width: 100%">
@@ -16,7 +17,7 @@
             <el-table-column
                     label="标题">
                 <template slot-scope="scope">
-                    <a href="#" class="link-plain">{{ scope.row.articleTitle }}</a>
+                    <a :href="articleUrl+scope.row.id" class="link-plain" target="_blank">{{ scope.row.articleTitle }}</a>
                 </template>
             </el-table-column>
             <el-table-column
@@ -53,17 +54,19 @@
                 </template>
             </el-table-column>
         </el-table>
-        <div class="block">
-            <el-pagination
-                    @size-change="handleSizeChange"
-                    @current-change="handleCurrentChange"
-                    :current-page="currentPage"
-                    :page-sizes="[10, 20, 30, 40]"
-                    :page-size="pageSize"
-                    layout="total, sizes, prev, pager, next, jumper"
-                    :total="total">
-            </el-pagination>
-        </div>
+        <el-row type="flex" class="row-bg" justify="end">
+            <el-col :span="24">
+                <el-pagination
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page="currentPage"
+                        :page-sizes="[10, 20, 30, 40]"
+                        :page-size="pageSize"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="total">
+                </el-pagination>
+            </el-col>
+        </el-row>
     </el-card>
 </template>
 <script>
@@ -73,14 +76,23 @@
         name: "article-list",
         data() {
             return {
+                loading: false,
                 currentPage: 1,
-                getTopicListUrl: 'http://localhost:8081/admin/article/page',
+                articleUrl : "http://localhost:8080/article/",
+                getTopicListUrl: 'http://localhost:8080/admin/article/page',
                 tableData: [],
                 total:0,
                 pageSize:10
             }
         },
         methods: {
+            handleEdit(index, row) {
+                this.$router.push('/aitlcleEdit/'+row.id)  //将你的跳转写在这里。
+                console.log(index, row)
+            },
+            handleDelete(index, row) {
+                console.log(index, row)
+            },
             handleSizeChange(val) {
                 console.log(`每页 ${val} 条`);
                 this.pageSize = val;
@@ -92,10 +104,11 @@
                 this.getTopic();
             },
             getTopic: function () {
+                this.loading = true;
                 var that = this;
                 var params = { rows: this.pageSize, page: this.currentPage };
                 aiticleList(params).then(res =>{
-                    console.log(res);
+                    this.loading = false;
                     that.tableData = res.data.rows;
                     that.total = res.data.total;
                     that.currentPage = res.data.currentPage;
