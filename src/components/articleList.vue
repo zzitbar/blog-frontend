@@ -1,5 +1,11 @@
 <template>
     <el-card>
+        <div slot="header" class="clearfix">
+            <el-breadcrumb separator="/">
+                <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+                <el-breadcrumb-item :to="{path:'/article'}">文章列表</el-breadcrumb-item>
+            </el-breadcrumb>
+        </div>
         <el-table
                 v-loading="loading"
                 :data="tableData"
@@ -29,12 +35,12 @@
                     label="标签">
             </el-table-column>
             <el-table-column
-                    width="60"
+                    width="80"
                     prop="articleCommentCount"
                     label="回复数">
             </el-table-column>
             <el-table-column
-                    width="60"
+                    width="80"
                     prop="articleViewCount"
                     label="阅读数">
             </el-table-column>
@@ -71,7 +77,7 @@
 </template>
 <script>
     // import axios from 'axios'
-    import {aiticleList, stringify} from '../api/api';
+    import {aiticleList, stringify, aiticleDelete} from '../api/api';
     export default {
         name: "article-list",
         data() {
@@ -88,18 +94,19 @@
         methods: {
             handleEdit(index, row) {
                 this.$router.push('/aitlcleEdit/'+row.id)  //将你的跳转写在这里。
-                console.log(index, row)
             },
             handleDelete(index, row) {
-                console.log(index, row)
+                this.loading = true;
+                aiticleDelete(row.id).then(res =>{
+                    this.loading = false;
+                    this.getTopic();
+                });
             },
             handleSizeChange(val) {
-                console.log(`每页 ${val} 条`);
                 this.pageSize = val;
                 this.getTopic();
             },
             handleCurrentChange(val) {
-                console.log(`当前页: ${val}`);
                 this.currentPage = val;
                 this.getTopic();
             },
@@ -107,7 +114,7 @@
                 this.loading = true;
                 var that = this;
                 var params = { rows: this.pageSize, page: this.currentPage };
-                aiticleList(params).then(res =>{
+                aiticleList(stringify(params)).then(res =>{
                     this.loading = false;
                     that.tableData = res.data.rows;
                     that.total = res.data.total;

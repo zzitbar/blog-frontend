@@ -1,7 +1,8 @@
 <template>
     <div>
         <div class="aside-header" style="">
-            <p>CBlog <i :class="iconArrow" v-on:click="collapse"></i></p>
+            <span>CBlog </span>
+            <i :class="iconArrow" v-on:click="collapse" style="float: right; line-height: 50px;"></i>
         </div>
         <!-- :default-openeds="['1', '3']"-->
         <el-menu router :default-active="this.$route.path"
@@ -18,7 +19,7 @@
                 <el-menu-item index="/form">表单</el-menu-item>
                 <el-menu-item index="/aitlcle">文章列表</el-menu-item>
                 <el-menu-item index="/aitlcleEdit">文章编辑</el-menu-item>
-                <el-menu-item index="/user/password">分类管理</el-menu-item>
+                <el-menu-item index="/articleCategory">分类管理</el-menu-item>
                 <el-menu-item index="/user/password">标签管理</el-menu-item>
                 <el-menu-item index="/testjs">测试第三方js引入</el-menu-item>
             </el-submenu>
@@ -63,7 +64,6 @@
                 console.log(key, keyPath);
             },
             collapse(event) {
-                console.log(this)
                 this.childCollapse = !this.childCollapse;
                 this.$emit("collapseListener", this.childCollapse);
             }

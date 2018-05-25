@@ -29,7 +29,7 @@
             <router-view></router-view>
           </div>
         </el-main>
-        <el-footer height="50px">Footer</el-footer>
+        <el-footer height="50px" style="border-top: 1px solid #e3e3e3;">Footer</el-footer>
       </el-container>
     </el-container>
   </div>
@@ -136,6 +136,9 @@
   }
   .text-nowrap {
       white-space: nowrap;
+  }
+  .el-pagination{
+    margin-top: 10px;
   }
 </style>
 
